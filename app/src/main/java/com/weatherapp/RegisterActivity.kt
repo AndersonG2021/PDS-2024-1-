@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.weatherapp.ui.theme.WeatherAppTheme
 
-class LoginActivity : ComponentActivity() {
+class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -45,19 +45,20 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginPage()
+                    RegisterPage()
                 }
             }
         }
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun LoginPage(modifier: Modifier = Modifier) {
+fun RegisterPage(modifier: Modifier = Modifier) {
+    var name by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var confirmPassword by rememberSaveable { mutableStateOf("") }
+
     val activity = LocalContext.current as? Activity
     Column(
         modifier = Modifier.padding(16.dp),
@@ -69,6 +70,14 @@ fun LoginPage(modifier: Modifier = Modifier) {
             fontSize = 24.sp
         )
         Spacer(modifier = Modifier.size(24.dp))
+        OutlinedTextField(
+            value = name,
+            label = { Text(text = "Digite o nome de Vossa Graça") },
+            modifier = Modifier.fillMaxWidth(),
+            onValueChange = { name = it },
+        )
+        Spacer(modifier = Modifier.size(24.dp))
+
         OutlinedTextField(
             value = email,
             label = { Text(text = "Digite seu e-mail") },
@@ -85,46 +94,38 @@ fun LoginPage(modifier: Modifier = Modifier) {
             visualTransformation = PasswordVisualTransformation()
         )
         Spacer(modifier = Modifier.size(24.dp))
+        OutlinedTextField(
+            value = confirmPassword,
+            label = { Text(text = "Confirme sua senha") },
+            modifier = Modifier.fillMaxWidth(),
+            onValueChange = { confirmPassword = it },
+            visualTransformation = PasswordVisualTransformation()
+        )
+        Spacer(modifier = Modifier.size(24.dp))
         Row(modifier = modifier) {
             Button(
                 onClick = {
-                    Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
-                    activity?.startActivity(
-                        Intent(activity, MainActivity::class.java).setFlags(
-                            FLAG_ACTIVITY_SINGLE_TOP
-                        )
-                    )
 
+                    if (password == confirmPassword) {
+                        Toast.makeText(activity, "Registro OK!", Toast.LENGTH_LONG).show()
+                            activity?.finish() // Voltar para a LoginActivity
+                    } else {
+                        Toast.makeText(activity, "Senhas não conferem!", Toast.LENGTH_LONG).show()
+                    }
                 },
-                enabled = email.isNotEmpty() && password.isNotEmpty()
+                enabled = name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && password.equals(confirmPassword, ignoreCase = true)
             ) {
-                Text("Login")
+                Text("Registrar")
             }
             Spacer(modifier = Modifier.size(24.dp))
             Button(
-                onClick = { email = ""; password = "" },
-
-            ) {
-                Text("Limpar")
-            }
-            Spacer(modifier = Modifier.size(24.dp))
-
-            Button(
-                onClick = {
-                    activity?.startActivity(
-                        Intent(activity, RegisterActivity::class.java).setFlags(
-                            FLAG_ACTIVITY_SINGLE_TOP
-                        )
-                    )
-                },
+                onClick = { name = "";email = ""; password = "";confirmPassword = ""; },
 
                 ) {
-                Text("Registrar-se")
+                Text("Limpar")
             }
             Spacer(modifier = Modifier.size(24.dp))
         }
     }
 }
-
-
 
