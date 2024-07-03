@@ -117,14 +117,14 @@ fun RegisterPage(modifier: Modifier = Modifier) {
             ) {
                 Text("Registrar")
             }
-            Spacer(modifier = Modifier.size(24.dp))
+            Spacer(modifier = Modifier.size(20.dp))
             Button(
                 onClick = { name = "";email = ""; password = "";confirmPassword = ""; },
 
                 ) {
                 Text("Limpar")
             }
-            Spacer(modifier = Modifier.size(24.dp))
+            Spacer(modifier = Modifier.size(20.dp))
         }
     }
 }
