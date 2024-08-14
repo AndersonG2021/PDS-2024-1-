@@ -3,6 +3,7 @@ package com.weatherapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,15 +22,19 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.weatherapp.ui.HomePage
+import com.weatherapp.ui.MainViewModel
 import com.weatherapp.ui.nav.BottomNavBar
 import com.weatherapp.ui.nav.MainNavHost
 import com.weatherapp.ui.theme.WeatherAppTheme
+
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val viewModel : MainViewModel by viewModels()
+
             val navController = rememberNavController()
             WeatherAppTheme {
                 Scaffold(
@@ -57,7 +62,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                         innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        MainNavHost(navController = navController)
+                        MainNavHost(navController = navController,viewModel =  viewModel)
                     }
                 }
             }
