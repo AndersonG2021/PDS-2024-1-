@@ -43,15 +43,5 @@ fun HomePage(modifier: Modifier = Modifier,viewModel: MainViewModel, context: Co
             fontSize = 20.sp
 
         )
-//        Spacer(modifier = Modifier.size(24.dp))
-//
-//        Row(modifier = modifier) {
-//            Button(
-//                onClick = { activity?.finish() }
-//            ) {
-//                Text("Sair")
-//            }
-//
-//        }
     }
 }
